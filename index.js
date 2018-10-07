@@ -1,4 +1,7 @@
 const Block = require('ipfs-block')
+const {promisify} = require('util')
+const multihashing = promisify(require('multihashing-async'))
+const CID = require('cids')
 
 exports.asyncIter = (func, dedupe=true) => {
   let iter = func()
@@ -8,9 +11,12 @@ exports.asyncIter = (func, dedupe=true) => {
   let ret = (async function * () {
     let first = false
     let last
-    for await (let value of iter) {
+    let value
+    for await (value of iter) {
       if (!Block.isBlock(value)) {
-        throw new Error('Iterator must only contain Block objects.')
+        let err = new Error('Iterator must only contain Block objects.')
+        err.code = 422
+        throw err
       }
       if (!first) {
         first = true
@@ -33,5 +39,22 @@ exports.asyncIter = (func, dedupe=true) => {
   ret.last = new Promise(resolve => {
     resolveLast = resolve
   })
+  ret.resolve = () => {
+    ;(async () => {
+      for await (let x of ret) {
+        // do nothing
+      }
+    })()
+    return ret
+  }
   return ret
+}
+
+exports.mkcid = async (buff, algo, codec) => {
+  let hash = await multihashing(buff, algo)
+  return new CID(1, codec, hash)
+}
+exports.mkblock = async (buff, algo, codec) => {
+  let cid = await exports.mkcid(buff, algo, codec)
+  return new Block(buff, cid)
 }

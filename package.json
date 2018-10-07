@@ -4,12 +4,17 @@
   "description": "> The chain we used to rock back in the days was Cuban links. So Rae came up with the theory, like a Cuban link is one of the roughest chains to break. Only Built 4 Cuban Linx... > Ghostface Killah",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "tap test/test-*.js --100"
   },
   "keywords": [],
   "author": "Mikeal Rogers <mikeal.rogers@gmail.com> (http://www.mikealrogers.com)",
   "license": "Apache-2.0",
   "dependencies": {
-    "ipfs-block": "^0.7.1"
+    "cids": "^0.5.5",
+    "ipfs-block": "^0.7.1",
+    "multihashing-async": "^0.5.1"
+  },
+  "devDependencies": {
+    "tap": "^12.0.1"
   }
 }
