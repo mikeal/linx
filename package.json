@@ -1,6 +1,6 @@
 {
   "name": "linx",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "> The chain we used to rock back in the days was Cuban links. So Rae came up with the theory, like a Cuban link is one of the roughest chains to break. Only Built 4 Cuban Linx... > Ghostface Killah",
   "main": "index.js",
   "scripts": {
